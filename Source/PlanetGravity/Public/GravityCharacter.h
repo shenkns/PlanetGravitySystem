@@ -5,6 +5,8 @@
 #include "GameFramework/Character.h"
 #include "GravityCharacter.generated.h"
 
+class UGravityMovementComponent;
+
 UCLASS()
 class PLANETGRAVITY_API AGravityCharacter : public ACharacter
 {
@@ -12,5 +14,15 @@ class PLANETGRAVITY_API AGravityCharacter : public ACharacter
 
 public:
 	
-	AGravityCharacter();
+	AGravityCharacter(const FObjectInitializer& ObjectInitializer);
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UGravityMovementComponent* GravityMovementComponent;
+
+public:
+
+	UFUNCTION(BlueprintPure, Category = "Gravity")
+	UGravityMovementComponent* GetGravityMovementComponent() const { return GravityMovementComponent; };
 };
