@@ -1,0 +1,9 @@
+/Binaries/
+/Config/
+/Saved/
+/Intermediate/
+
+*.pdb
+
+/hooks
+/lfs
