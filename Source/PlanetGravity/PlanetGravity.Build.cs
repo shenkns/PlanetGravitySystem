@@ -26,7 +26,9 @@ public class PlanetGravity : ModuleRules
 			new string[]
 			{
 				"CoreUObject",
-				"Engine"
+				"Engine",
+				"PerfCounters",
+				"PhysicsCore"
 			}
 		);
 	}
