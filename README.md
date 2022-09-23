@@ -1,3 +1,3 @@
-# Planet Gravity Guide
+# Planet Gravity System Guide
 
-```Planet Gravity Plugin```
+```Planet Gravity System Plugin```
