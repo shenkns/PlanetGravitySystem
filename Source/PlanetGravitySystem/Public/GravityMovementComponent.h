@@ -1,4 +1,4 @@
-// Copyright shenkns Planet Gravity Developed With Unreal Engine. All Rights Reserved 2022.
+// Copyright shenkns Planet Gravity System Developed With Unreal Engine. All Rights Reserved 2022.
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "GravityMovementComponent.generated.h"
 
 UCLASS()
-class PLANETGRAVITY_API UGravityMovementComponent : public UCharacterMovementComponent
+class PLANETGRAVITYSYSTEM_API UGravityMovementComponent : public UCharacterMovementComponent
 {
 	GENERATED_BODY()
 

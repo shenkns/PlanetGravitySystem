@@ -1,4 +1,4 @@
-// Copyright shenkns Planet Gravity Developed With Unreal Engine. All Rights Reserved 2022.
+// Copyright shenkns Planet Gravity System Developed With Unreal Engine. All Rights Reserved 2022.
 
 #pragma once
 
@@ -13,7 +13,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCharMovementGravityChangedSignatur
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUnwalkableHitSignature, const FHitResult&, Hit);
 
 UCLASS()
-class PLANETGRAVITY_API AGravityCharacter : public ACharacter
+class PLANETGRAVITYSYSTEM_API AGravityCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
