@@ -1,17 +1,17 @@
-// Copyright shenkns Planet Gravity Developed With Unreal Engine. All Rights Reserved 2022.
+// Copyright shenkns Planet Gravity System Developed With Unreal Engine. All Rights Reserved 2022.
 
 using UnrealBuildTool;
 
-public class PlanetGravity : ModuleRules
+public class PlanetGravitySystem : ModuleRules
 {
-	public PlanetGravity(ReadOnlyTargetRules Target) : base(Target)
+	public PlanetGravitySystem(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
 		PrivateIncludePaths.AddRange(
 			new string[] 
 			{
-				"PlanetGravity/Public/"
+				"PlanetGravitySystem/Public/"
 			}
 		);
 
