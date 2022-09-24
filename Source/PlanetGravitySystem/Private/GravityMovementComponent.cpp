@@ -119,7 +119,7 @@ UGravityMovementComponent::UGravityMovementComponent(const FObjectInitializer& O
 	bRotateVelocityOnGround = false;
 	bTriggerUnwalkableHits = false;
 	GravityActor = nullptr;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Fixed;
+	GravityDirectionMode = EGravityDirectionMode::Fixed;
 	GravityVectorA = FVector::DownVector;
 	GravityVectorB = FVector::ZeroVector;
 	LastUnwalkableHitTime = -1.0f;
@@ -418,22 +418,22 @@ void UGravityMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 		switch (GravityDirectionMode)
 		{
-			case ENinjaGravityDirectionMode::SplineTangent:
+			case EGravityDirectionMode::SplineTangent:
 			{
 				DrawDebugDirectionalArrow(GetWorld(), GetActorLocation(),
 					GetActorLocation() + GravityVectorA * 1000.0f, 100.0f, FColor::Green, false, -1.0f, 0, 4.0f);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Point:
-			case ENinjaGravityDirectionMode::Spline:
-			case ENinjaGravityDirectionMode::Collision:
+			case EGravityDirectionMode::Point:
+			case EGravityDirectionMode::Spline:
+			case EGravityDirectionMode::Collision:
 			{
 				DrawDebugSphere(GetWorld(), GravityVectorA, 4.0, 8, FColor::Green, false, -1.0f, 0, 10.0f);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Line:
+			case EGravityDirectionMode::Line:
 			{
 				DrawDebugLine(GetWorld(), GravityVectorA + (GravityVectorA - GravityVectorB),
 					GravityVectorB + (GravityVectorB - GravityVectorA), FColor::Green, false, -1.0f, 0, 4.0f);
@@ -442,7 +442,7 @@ void UGravityMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Segment:
+			case EGravityDirectionMode::Segment:
 			{
 				DrawDebugLine(GetWorld(), GravityVectorA, GravityVectorB, FColor::Green, false, -1.0f, 0, 4.0f);
 				DrawDebugSphere(GetWorld(), GravityVectorA, 4.0, 8, FColor::Blue, false, -1.0f, 0, 10.0f);
@@ -450,15 +450,15 @@ void UGravityMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Plane:
-			case ENinjaGravityDirectionMode::SplinePlane:
+			case EGravityDirectionMode::Plane:
+			case EGravityDirectionMode::SplinePlane:
 			{
 				DrawDebugSolidPlane(GetWorld(), FPlane(GravityVectorA, GravityVectorB), GravityVectorA,
 					FVector2D(500.0f, 500.0f), FColor::Green);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Box:
+			case EGravityDirectionMode::Box:
 			{
 				DrawDebugSolidBox(GetWorld(), GravityVectorA, GravityVectorB, FColor::Green);
 				break;
@@ -4203,13 +4203,13 @@ FVector UGravityMovementComponent::GetGravity() const
 
 	switch (GravityDirectionMode)
 	{
-		case ENinjaGravityDirectionMode::Fixed:
+		case EGravityDirectionMode::Fixed:
 		{
 			Gravity = GravityVectorA * (FMath::Abs(UPawnMovementComponent::GetGravityZ()) * GravityScale);
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::SplineTangent:
+		case EGravityDirectionMode::SplineTangent:
 		{
 			if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 			{
@@ -4227,7 +4227,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Point:
+		case EGravityDirectionMode::Point:
 		{
 			if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 			{
@@ -4244,7 +4244,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Line:
+		case EGravityDirectionMode::Line:
 		{
 			const FVector GravityDir = FMath::ClosestPointOnInfiniteLine(GravityVectorA,
 				GravityVectorB, UpdatedComponent->GetComponentLocation()) - UpdatedComponent->GetComponentLocation();
@@ -4256,7 +4256,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Segment:
+		case EGravityDirectionMode::Segment:
 		{
 			const FVector GravityDir = FMath::ClosestPointOnLine(GravityVectorA,
 				GravityVectorB, UpdatedComponent->GetComponentLocation()) - UpdatedComponent->GetComponentLocation();
@@ -4268,7 +4268,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Spline:
+		case EGravityDirectionMode::Spline:
 		{
 			if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 			{
@@ -4291,7 +4291,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Plane:
+		case EGravityDirectionMode::Plane:
 		{
 			const FVector GravityDir = FVector::PointPlaneProject(UpdatedComponent->GetComponentLocation(),
 				GravityVectorA, GravityVectorB) - UpdatedComponent->GetComponentLocation();
@@ -4303,7 +4303,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::SplinePlane:
+		case EGravityDirectionMode::SplinePlane:
 		{
 			if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 			{
@@ -4334,7 +4334,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Box:
+		case EGravityDirectionMode::Box:
 		{
 			if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 			{
@@ -4353,7 +4353,7 @@ FVector UGravityMovementComponent::GetGravity() const
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Collision:
+		case EGravityDirectionMode::Collision:
 		{
 			if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 			{
@@ -4393,13 +4393,13 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 	{
 		switch (GravityDirectionMode)
 		{
-			case ENinjaGravityDirectionMode::Fixed:
+			case EGravityDirectionMode::Fixed:
 			{
 				GravityDir = GravityVectorA * ((GravityScale > 0.0f) ? 1.0f : -1.0f);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::SplineTangent:
+			case EGravityDirectionMode::SplineTangent:
 			{
 				if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 				{
@@ -4417,7 +4417,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Point:
+			case EGravityDirectionMode::Point:
 			{
 				if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 				{
@@ -4434,7 +4434,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Line:
+			case EGravityDirectionMode::Line:
 			{
 				GravityDir = FMath::ClosestPointOnInfiniteLine(GravityVectorA,
 					GravityVectorB, UpdatedComponent->GetComponentLocation()) - UpdatedComponent->GetComponentLocation();
@@ -4446,7 +4446,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Segment:
+			case EGravityDirectionMode::Segment:
 			{
 				GravityDir = FMath::ClosestPointOnLine(GravityVectorA,
 					GravityVectorB, UpdatedComponent->GetComponentLocation()) - UpdatedComponent->GetComponentLocation();
@@ -4458,7 +4458,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Spline:
+			case EGravityDirectionMode::Spline:
 			{
 				if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 				{
@@ -4481,7 +4481,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Plane:
+			case EGravityDirectionMode::Plane:
 			{
 				GravityDir = FVector::PointPlaneProject(UpdatedComponent->GetComponentLocation(),
 					GravityVectorA, GravityVectorB) - UpdatedComponent->GetComponentLocation();
@@ -4493,7 +4493,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::SplinePlane:
+			case EGravityDirectionMode::SplinePlane:
 			{
 				if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 				{
@@ -4524,7 +4524,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Box:
+			case EGravityDirectionMode::Box:
 			{
 				if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 				{
@@ -4542,7 +4542,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Collision:
+			case EGravityDirectionMode::Collision:
 			{
 				if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 				{
@@ -4577,13 +4577,13 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 		{
 			switch (GravityDirectionMode)
 			{
-				case ENinjaGravityDirectionMode::Fixed:
+				case EGravityDirectionMode::Fixed:
 				{
 					GravityDir = GravityVectorA;
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::SplineTangent:
+				case EGravityDirectionMode::SplineTangent:
 				{
 					if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 					{
@@ -4601,7 +4601,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Point:
+				case EGravityDirectionMode::Point:
 				{
 					if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 					{
@@ -4618,7 +4618,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Line:
+				case EGravityDirectionMode::Line:
 				{
 					GravityDir = FMath::ClosestPointOnInfiniteLine(GravityVectorA,
 						GravityVectorB, UpdatedComponent->GetComponentLocation()) -
@@ -4631,7 +4631,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Segment:
+				case EGravityDirectionMode::Segment:
 				{
 					GravityDir = FMath::ClosestPointOnLine(GravityVectorA,
 						GravityVectorB, UpdatedComponent->GetComponentLocation()) -
@@ -4644,7 +4644,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Spline:
+				case EGravityDirectionMode::Spline:
 				{
 					if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 					{
@@ -4667,7 +4667,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Plane:
+				case EGravityDirectionMode::Plane:
 				{
 					GravityDir = FVector::PointPlaneProject(UpdatedComponent->GetComponentLocation(),
 						GravityVectorA, GravityVectorB) - UpdatedComponent->GetComponentLocation();
@@ -4679,7 +4679,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::SplinePlane:
+				case EGravityDirectionMode::SplinePlane:
 				{
 					if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 					{
@@ -4710,7 +4710,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Box:
+				case EGravityDirectionMode::Box:
 				{
 					if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 					{
@@ -4728,7 +4728,7 @@ FVector UGravityMovementComponent::GetGravityDirection(bool bAvoidZeroGravity) c
 					break;
 				}
 
-				case ENinjaGravityDirectionMode::Collision:
+				case EGravityDirectionMode::Collision:
 				{
 					if (GravityActor != nullptr && !GravityActor->IsPendingKill())
 					{
@@ -4775,16 +4775,16 @@ void UGravityMovementComponent::K2_SetFixedGravityDirection(const FVector& NewGr
 void UGravityMovementComponent::SetFixedGravityDirection(const FVector& NewFixedGravityDirection)
 {
 	if (NewFixedGravityDirection.IsZero() ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::Fixed &&
+		(GravityDirectionMode == EGravityDirectionMode::Fixed &&
 		GravityVectorA == NewFixedGravityDirection))
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Fixed;
+	GravityDirectionMode = EGravityDirectionMode::Fixed;
 	GravityVectorA = NewFixedGravityDirection;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -4792,15 +4792,15 @@ void UGravityMovementComponent::SetFixedGravityDirection(const FVector& NewFixed
 
 void UGravityMovementComponent::MulticastSetFixedGravityDirection_Implementation(const FVector& NewFixedGravityDirection)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Fixed &&
+	if (GravityDirectionMode == EGravityDirectionMode::Fixed &&
 		GravityVectorA == NewFixedGravityDirection)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Fixed;
+	GravityDirectionMode = EGravityDirectionMode::Fixed;
 	GravityVectorA = NewFixedGravityDirection;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -4809,7 +4809,7 @@ void UGravityMovementComponent::MulticastSetFixedGravityDirection_Implementation
 void UGravityMovementComponent::SetSplineTangentGravityDirection(AActor* NewGravityActor)
 {
 	if (NewGravityActor == nullptr ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::SplineTangent &&
+		(GravityDirectionMode == EGravityDirectionMode::SplineTangent &&
 		GravityActor == NewGravityActor))
 	{
 		return;
@@ -4819,10 +4819,10 @@ void UGravityMovementComponent::SetSplineTangentGravityDirection(AActor* NewGrav
 		NewGravityActor->GetComponentByClass(USplineComponent::StaticClass()));
 	if (Spline != nullptr)
 	{
-		const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+		const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 		bDirtyGravityDirection = true;
-		GravityDirectionMode = ENinjaGravityDirectionMode::SplineTangent;
+		GravityDirectionMode = EGravityDirectionMode::SplineTangent;
 		GravityActor = NewGravityActor;
 
 		GravityDirectionChanged(OldGravityDirectionMode);
@@ -4831,15 +4831,15 @@ void UGravityMovementComponent::SetSplineTangentGravityDirection(AActor* NewGrav
 
 void UGravityMovementComponent::MulticastSetSplineTangentGravityDirection_Implementation(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::SplineTangent &&
+	if (GravityDirectionMode == EGravityDirectionMode::SplineTangent &&
 		GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::SplineTangent;
+	GravityDirectionMode = EGravityDirectionMode::SplineTangent;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -4847,16 +4847,16 @@ void UGravityMovementComponent::MulticastSetSplineTangentGravityDirection_Implem
 
 void UGravityMovementComponent::SetPointGravityDirection(const FVector& NewGravityPoint)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Point &&
+	if (GravityDirectionMode == EGravityDirectionMode::Point &&
 		GravityVectorA == NewGravityPoint)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Point;
+	GravityDirectionMode = EGravityDirectionMode::Point;
 	GravityVectorA = NewGravityPoint;
 	GravityActor = nullptr;
 
@@ -4865,16 +4865,16 @@ void UGravityMovementComponent::SetPointGravityDirection(const FVector& NewGravi
 
 void UGravityMovementComponent::SetPointGravityDirectionFromActor(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Point &&
+	if (GravityDirectionMode == EGravityDirectionMode::Point &&
 		GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Point;
+	GravityDirectionMode = EGravityDirectionMode::Point;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -4882,15 +4882,15 @@ void UGravityMovementComponent::SetPointGravityDirectionFromActor(AActor* NewGra
 
 void UGravityMovementComponent::MulticastSetPointGravityDirection_Implementation(const FVector& NewGravityPoint)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Point &&
+	if (GravityDirectionMode == EGravityDirectionMode::Point &&
 		GravityVectorA == NewGravityPoint)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Point;
+	GravityDirectionMode = EGravityDirectionMode::Point;
 	GravityVectorA = NewGravityPoint;
 	GravityActor = nullptr;
 
@@ -4899,15 +4899,15 @@ void UGravityMovementComponent::MulticastSetPointGravityDirection_Implementation
 
 void UGravityMovementComponent::MulticastSetPointGravityDirectionFromActor_Implementation(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Point &&
+	if (GravityDirectionMode == EGravityDirectionMode::Point &&
 		GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Point;
+	GravityDirectionMode = EGravityDirectionMode::Point;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -4916,16 +4916,16 @@ void UGravityMovementComponent::MulticastSetPointGravityDirectionFromActor_Imple
 void UGravityMovementComponent::SetLineGravityDirection(const FVector& NewGravityLineStart, const FVector& NewGravityLineEnd)
 {
 	if (NewGravityLineStart == NewGravityLineEnd ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::Line &&
+		(GravityDirectionMode == EGravityDirectionMode::Line &&
 		GravityVectorA == NewGravityLineStart && GravityVectorB == NewGravityLineEnd))
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Line;
+	GravityDirectionMode = EGravityDirectionMode::Line;
 	GravityVectorA = NewGravityLineStart;
 	GravityVectorB = NewGravityLineEnd;
 
@@ -4934,15 +4934,15 @@ void UGravityMovementComponent::SetLineGravityDirection(const FVector& NewGravit
 
 void UGravityMovementComponent::MulticastSetLineGravityDirection_Implementation(const FVector& NewGravityLineStart, const FVector& NewGravityLineEnd)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Line &&
+	if (GravityDirectionMode == EGravityDirectionMode::Line &&
 		GravityVectorA == NewGravityLineStart && GravityVectorB == NewGravityLineEnd)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Line;
+	GravityDirectionMode = EGravityDirectionMode::Line;
 	GravityVectorA = NewGravityLineStart;
 	GravityVectorB = NewGravityLineEnd;
 
@@ -4952,16 +4952,16 @@ void UGravityMovementComponent::MulticastSetLineGravityDirection_Implementation(
 void UGravityMovementComponent::SetSegmentGravityDirection(const FVector& NewGravitySegmentStart, const FVector& NewGravitySegmentEnd)
 {
 	if (NewGravitySegmentStart == NewGravitySegmentEnd ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::Segment &&
+		(GravityDirectionMode == EGravityDirectionMode::Segment &&
 		GravityVectorA == NewGravitySegmentStart && GravityVectorB == NewGravitySegmentEnd))
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Segment;
+	GravityDirectionMode = EGravityDirectionMode::Segment;
 	GravityVectorA = NewGravitySegmentStart;
 	GravityVectorB = NewGravitySegmentEnd;
 
@@ -4970,15 +4970,15 @@ void UGravityMovementComponent::SetSegmentGravityDirection(const FVector& NewGra
 
 void UGravityMovementComponent::MulticastSetSegmentGravityDirection_Implementation(const FVector& NewGravitySegmentStart, const FVector& NewGravitySegmentEnd)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Segment &&
+	if (GravityDirectionMode == EGravityDirectionMode::Segment &&
 		GravityVectorA == NewGravitySegmentStart && GravityVectorB == NewGravitySegmentEnd)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Segment;
+	GravityDirectionMode = EGravityDirectionMode::Segment;
 	GravityVectorA = NewGravitySegmentStart;
 	GravityVectorB = NewGravitySegmentEnd;
 
@@ -4988,7 +4988,7 @@ void UGravityMovementComponent::MulticastSetSegmentGravityDirection_Implementati
 void UGravityMovementComponent::SetSplineGravityDirection(AActor* NewGravityActor)
 {
 	if (NewGravityActor == nullptr ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::Spline &&
+		(GravityDirectionMode == EGravityDirectionMode::Spline &&
 		GravityActor == NewGravityActor))
 	{
 		return;
@@ -4998,10 +4998,10 @@ void UGravityMovementComponent::SetSplineGravityDirection(AActor* NewGravityActo
 		NewGravityActor->GetComponentByClass(USplineComponent::StaticClass()));
 	if (Spline != nullptr)
 	{
-		const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+		const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 		bDirtyGravityDirection = true;
-		GravityDirectionMode = ENinjaGravityDirectionMode::Spline;
+		GravityDirectionMode = EGravityDirectionMode::Spline;
 		GravityActor = NewGravityActor;
 
 		GravityDirectionChanged(OldGravityDirectionMode);
@@ -5010,15 +5010,15 @@ void UGravityMovementComponent::SetSplineGravityDirection(AActor* NewGravityActo
 
 void UGravityMovementComponent::MulticastSetSplineGravityDirection_Implementation(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Spline &&
+	if (GravityDirectionMode == EGravityDirectionMode::Spline &&
 		GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Spline;
+	GravityDirectionMode = EGravityDirectionMode::Spline;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -5032,16 +5032,16 @@ void UGravityMovementComponent::K2_SetPlaneGravityDirection(const FVector& NewGr
 void UGravityMovementComponent::SetPlaneGravityDirection(const FVector& NewGravityPlaneBase, const FVector& NewGravityPlaneNormal)
 {
 	if (NewGravityPlaneNormal.IsZero() ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::Plane &&
+		(GravityDirectionMode == EGravityDirectionMode::Plane &&
 		GravityVectorA == NewGravityPlaneBase && GravityVectorB == NewGravityPlaneNormal))
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Plane;
+	GravityDirectionMode = EGravityDirectionMode::Plane;
 	GravityVectorA = NewGravityPlaneBase;
 	GravityVectorB = NewGravityPlaneNormal;
 
@@ -5050,15 +5050,15 @@ void UGravityMovementComponent::SetPlaneGravityDirection(const FVector& NewGravi
 
 void UGravityMovementComponent::MulticastSetPlaneGravityDirection_Implementation(const FVector& NewGravityPlaneBase, const FVector& NewGravityPlaneNormal)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Plane &&
+	if (GravityDirectionMode == EGravityDirectionMode::Plane &&
 		GravityVectorA == NewGravityPlaneBase && GravityVectorB == NewGravityPlaneNormal)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Plane;
+	GravityDirectionMode = EGravityDirectionMode::Plane;
 	GravityVectorA = NewGravityPlaneBase;
 	GravityVectorB = NewGravityPlaneNormal;
 
@@ -5068,7 +5068,7 @@ void UGravityMovementComponent::MulticastSetPlaneGravityDirection_Implementation
 void UGravityMovementComponent::SetSplinePlaneGravityDirection(AActor* NewGravityActor)
 {
 	if (NewGravityActor == nullptr ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::SplinePlane &&
+		(GravityDirectionMode == EGravityDirectionMode::SplinePlane &&
 		GravityActor == NewGravityActor))
 	{
 		return;
@@ -5078,10 +5078,10 @@ void UGravityMovementComponent::SetSplinePlaneGravityDirection(AActor* NewGravit
 		NewGravityActor->GetComponentByClass(USplineComponent::StaticClass()));
 	if (Spline != nullptr)
 	{
-		const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+		const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 		bDirtyGravityDirection = true;
-		GravityDirectionMode = ENinjaGravityDirectionMode::SplinePlane;
+		GravityDirectionMode = EGravityDirectionMode::SplinePlane;
 		GravityActor = NewGravityActor;
 
 		GravityDirectionChanged(OldGravityDirectionMode);
@@ -5090,15 +5090,15 @@ void UGravityMovementComponent::SetSplinePlaneGravityDirection(AActor* NewGravit
 
 void UGravityMovementComponent::MulticastSetSplinePlaneGravityDirection_Implementation(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::SplinePlane &&
+	if (GravityDirectionMode == EGravityDirectionMode::SplinePlane &&
 		GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::SplinePlane;
+	GravityDirectionMode = EGravityDirectionMode::SplinePlane;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -5106,16 +5106,16 @@ void UGravityMovementComponent::MulticastSetSplinePlaneGravityDirection_Implemen
 
 void UGravityMovementComponent::SetBoxGravityDirection(const FVector& NewGravityBoxOrigin, const FVector& NewGravityBoxExtent)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Box &&
+	if (GravityDirectionMode == EGravityDirectionMode::Box &&
 		GravityVectorA == NewGravityBoxOrigin && GravityVectorB == NewGravityBoxExtent)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Box;
+	GravityDirectionMode = EGravityDirectionMode::Box;
 	GravityVectorA = NewGravityBoxOrigin;
 	GravityVectorB = NewGravityBoxExtent;
 	GravityActor = nullptr;
@@ -5125,15 +5125,15 @@ void UGravityMovementComponent::SetBoxGravityDirection(const FVector& NewGravity
 
 void UGravityMovementComponent::SetBoxGravityDirectionFromActor(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Box && GravityActor == NewGravityActor)
+	if (GravityDirectionMode == EGravityDirectionMode::Box && GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 	bDirtyGravityDirection = true;
-	GravityDirectionMode = ENinjaGravityDirectionMode::Box;
+	GravityDirectionMode = EGravityDirectionMode::Box;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -5141,15 +5141,15 @@ void UGravityMovementComponent::SetBoxGravityDirectionFromActor(AActor* NewGravi
 
 void UGravityMovementComponent::MulticastSetBoxGravityDirection_Implementation(const FVector& NewGravityBoxOrigin, const FVector& NewGravityBoxExtent)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Box &&
+	if (GravityDirectionMode == EGravityDirectionMode::Box &&
 		GravityVectorA == NewGravityBoxOrigin && GravityVectorB == NewGravityBoxExtent)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Box;
+	GravityDirectionMode = EGravityDirectionMode::Box;
 	GravityVectorA = NewGravityBoxOrigin;
 	GravityVectorB = NewGravityBoxExtent;
 	GravityActor = nullptr;
@@ -5159,14 +5159,14 @@ void UGravityMovementComponent::MulticastSetBoxGravityDirection_Implementation(c
 
 void UGravityMovementComponent::MulticastSetBoxGravityDirectionFromActor_Implementation(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Box && GravityActor == NewGravityActor)
+	if (GravityDirectionMode == EGravityDirectionMode::Box && GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Box;
+	GravityDirectionMode = EGravityDirectionMode::Box;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
@@ -5175,7 +5175,7 @@ void UGravityMovementComponent::MulticastSetBoxGravityDirectionFromActor_Impleme
 void UGravityMovementComponent::SetCollisionGravityDirection(AActor* NewGravityActor)
 {
 	if (NewGravityActor == nullptr ||
-		(GravityDirectionMode == ENinjaGravityDirectionMode::Collision &&
+		(GravityDirectionMode == EGravityDirectionMode::Collision &&
 		GravityActor == NewGravityActor))
 	{
 		return;
@@ -5184,10 +5184,10 @@ void UGravityMovementComponent::SetCollisionGravityDirection(AActor* NewGravityA
 	const UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(NewGravityActor->GetRootComponent());
 	if (Primitive != nullptr)
 	{
-		const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+		const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
 		bDirtyGravityDirection = true;
-		GravityDirectionMode = ENinjaGravityDirectionMode::Collision;
+		GravityDirectionMode = EGravityDirectionMode::Collision;
 		GravityActor = NewGravityActor;
 
 		GravityDirectionChanged(OldGravityDirectionMode);
@@ -5196,20 +5196,20 @@ void UGravityMovementComponent::SetCollisionGravityDirection(AActor* NewGravityA
 
 void UGravityMovementComponent::MulticastSetCollisionGravityDirection_Implementation(AActor* NewGravityActor)
 {
-	if (GravityDirectionMode == ENinjaGravityDirectionMode::Collision && GravityActor == NewGravityActor)
+	if (GravityDirectionMode == EGravityDirectionMode::Collision && GravityActor == NewGravityActor)
 	{
 		return;
 	}
 
-	const ENinjaGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
+	const EGravityDirectionMode OldGravityDirectionMode = GravityDirectionMode;
 
-	GravityDirectionMode = ENinjaGravityDirectionMode::Collision;
+	GravityDirectionMode = EGravityDirectionMode::Collision;
 	GravityActor = NewGravityActor;
 
 	GravityDirectionChanged(OldGravityDirectionMode);
 }
 
-void UGravityMovementComponent::GravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode)
+void UGravityMovementComponent::GravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode)
 {
 	OnGravityDirectionChanged(OldGravityDirectionMode, GravityDirectionMode);
 
@@ -5221,7 +5221,7 @@ void UGravityMovementComponent::GravityDirectionChanged(ENinjaGravityDirectionMo
 	}
 }
 
-void UGravityMovementComponent::OnGravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode)
+void UGravityMovementComponent::OnGravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode)
 {
 }
 
@@ -5271,7 +5271,7 @@ void UGravityMovementComponent::UpdateGravity()
 
 	switch (GravityDirectionMode)
 	{
-		case ENinjaGravityDirectionMode::Fixed:
+		case EGravityDirectionMode::Fixed:
 		{
 			if (!CurrentFloor.HitResult.ImpactNormal.IsZero())
 			{
@@ -5282,7 +5282,7 @@ void UGravityMovementComponent::UpdateGravity()
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Point:
+		case EGravityDirectionMode::Point:
 		{
 			if (CurrentFloor.HitResult.GetActor() != nullptr)
 			{
@@ -5293,7 +5293,7 @@ void UGravityMovementComponent::UpdateGravity()
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Box:
+		case EGravityDirectionMode::Box:
 		{
 			if (CurrentFloor.HitResult.GetActor() != nullptr)
 			{
@@ -5304,7 +5304,7 @@ void UGravityMovementComponent::UpdateGravity()
 			break;
 		}
 
-		case ENinjaGravityDirectionMode::Collision:
+		case EGravityDirectionMode::Collision:
 		{
 			if (CurrentFloor.HitResult.GetActor() != nullptr)
 			{
@@ -5324,61 +5324,61 @@ void UGravityMovementComponent::ReplicateGravityToClients()
 		// Replicate gravity direction to clients
 		switch (GravityDirectionMode)
 		{
-			case ENinjaGravityDirectionMode::Fixed:
+			case EGravityDirectionMode::Fixed:
 			{
 				MulticastSetFixedGravityDirection(GravityVectorA);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::SplineTangent:
+			case EGravityDirectionMode::SplineTangent:
 			{
 				MulticastSetSplineTangentGravityDirection(GravityActor);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Point:
+			case EGravityDirectionMode::Point:
 			{
 				MulticastSetPointGravityDirection(GravityVectorA);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Line:
+			case EGravityDirectionMode::Line:
 			{
 				MulticastSetLineGravityDirection(GravityVectorA, GravityVectorB);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Segment:
+			case EGravityDirectionMode::Segment:
 			{
 				MulticastSetSegmentGravityDirection(GravityVectorA, GravityVectorB);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Spline:
+			case EGravityDirectionMode::Spline:
 			{
 				MulticastSetSplineGravityDirection(GravityActor);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Plane:
+			case EGravityDirectionMode::Plane:
 			{
 				MulticastSetPlaneGravityDirection(GravityVectorA, GravityVectorB);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::SplinePlane:
+			case EGravityDirectionMode::SplinePlane:
 			{
 				MulticastSetSplinePlaneGravityDirection(GravityActor);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Box:
+			case EGravityDirectionMode::Box:
 			{
 				MulticastSetBoxGravityDirection(GravityVectorA, GravityVectorB);
 				break;
 			}
 
-			case ENinjaGravityDirectionMode::Collision:
+			case EGravityDirectionMode::Collision:
 			{
 				MulticastSetCollisionGravityDirection(GravityActor);
 				break;

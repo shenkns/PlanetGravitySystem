@@ -326,7 +326,7 @@ void AGravityCharacter::OnCharMovementAxisChanged(const FVector& OldAxisZ, const
 	}
 }
 
-void AGravityCharacter::GravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode)
+void AGravityCharacter::GravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode)
 {
 	OnGravityDirectionChanged(OldGravityDirectionMode, CurrentGravityDirectionMode);
 
@@ -334,7 +334,7 @@ void AGravityCharacter::GravityDirectionChanged(ENinjaGravityDirectionMode OldGr
 	K2_OnGravityDirectionChanged(OldGravityDirectionMode, CurrentGravityDirectionMode);
 }
 
-void AGravityCharacter::OnGravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode)
+void AGravityCharacter::OnGravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode)
 {
 }
 

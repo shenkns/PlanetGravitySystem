@@ -6,7 +6,7 @@
 
 /** Provides modes that determine direction of gravity. */
 UENUM(BlueprintType)
-enum class ENinjaGravityDirectionMode : uint8
+enum class EGravityDirectionMode : uint8
 {
 	/** Gravity direction is fixed (it can be aligned to floor normal too). */
 	Fixed,

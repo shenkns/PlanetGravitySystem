@@ -9,7 +9,7 @@
 class UGravityMovementComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCharMovementAxisChangedSignature, const FVector&, OldAxisZ, const FVector&, CurrentAxisZ);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCharMovementGravityChangedSignature, ENinjaGravityDirectionMode, OldGravityDirectionMode, ENinjaGravityDirectionMode, CurrentGravityDirectionMode);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCharMovementGravityChangedSignature, EGravityDirectionMode, OldGravityDirectionMode, EGravityDirectionMode, CurrentGravityDirectionMode);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUnwalkableHitSignature, const FHitResult&, Hit);
 
 UCLASS()
@@ -168,7 +168,7 @@ public:
 	 * @param OldGravityDirectionMode - previous value of GravityDirectionMode
 	 * @param CurrentGravityDirectionMode - current value of GravityDirectionMode
 	 */
-	void GravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode);
+	void GravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode);
 
 protected:
 	
@@ -178,7 +178,7 @@ protected:
 	 * @param OldGravityDirectionMode - previous value of GravityDirectionMode
 	 * @param CurrentGravityDirectionMode - current value of GravityDirectionMode
 	 */
-	virtual void OnGravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode);
+	virtual void OnGravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode);
 
 public:
 	
@@ -188,7 +188,7 @@ public:
 	 * @param CurrentGravityDirectionMode - current value of GravityDirectionMode
 	 */
 	UFUNCTION(BlueprintImplementableEvent,Category="GravityCharacter",Meta=(DisplayName="On Char Gravity Direction Changed",ScriptName="OnGravityDirectionChanged"))
-	void K2_OnGravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode);
+	void K2_OnGravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode);
 
 public:
 	

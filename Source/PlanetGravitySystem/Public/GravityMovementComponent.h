@@ -625,7 +625,7 @@ protected:
 protected:
 	/** Mode that determines direction of gravity. */
 	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="GravityCharacterMovement")
-	ENinjaGravityDirectionMode GravityDirectionMode;
+	EGravityDirectionMode GravityDirectionMode;
 
 	/** Stores information that determines direction of gravity. */
 	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="GravityCharacterMovement")
@@ -907,7 +907,7 @@ protected:
 	 * Called after GravityDirectionMode (or related data) has changed.
 	 * @param OldGravityDirectionMode - previous value of GravityDirectionMode
 	 */
-	void GravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode);
+	void GravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode);
 
 	/**
 	 * Called after GravityDirectionMode (or related data) has changed.
@@ -915,7 +915,7 @@ protected:
 	 * @param OldGravityDirectionMode - previous value of GravityDirectionMode
 	 * @param CurrentGravityDirectionMode - current value of GravityDirectionMode
 	 */
-	virtual void OnGravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode);
+	virtual void OnGravityDirectionChanged(EGravityDirectionMode OldGravityDirectionMode, EGravityDirectionMode CurrentGravityDirectionMode);
 
 protected:
 	/**
