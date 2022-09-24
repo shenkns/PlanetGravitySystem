@@ -82,7 +82,7 @@ public:
 	 * @param bHorizontalOverride - if true, replace the horizontal part of the Character's velocity instead of adding to it
 	 * @param bVerticalOverride - if true, replace the vertical part of the Character's velocity instead of adding to it
 	 */
-	UFUNCTION(BlueprintCallable,Category="NinjaCharacter")
+	UFUNCTION(BlueprintCallable,Category="GravityCharacter")
 	virtual void LaunchCharacterRotated(FVector LaunchVelocity, bool bHorizontalOverride, bool bVerticalOverride);
 
 protected:
@@ -104,7 +104,7 @@ protected:
 public:
 	
 	/** If true, the aim control rotation of the Controller is rotated whenever the capsule is aligned to something. */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacter")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacter")
 	uint32 bCapsuleRotatesControlRotation:1;
 
 public:
@@ -115,7 +115,7 @@ public:
 	 * @param bForceFindFloor - force find a floor and attach to it
 	 * @return false if couldn't rotate/move the capsule
 	 */
-	UFUNCTION(BlueprintCallable,Category="NinjaCharacter",Meta=(DisplayName="Change Char Axis"))
+	UFUNCTION(BlueprintCallable,Category="GravityCharacter",Meta=(DisplayName="Change Char Axis"))
 	virtual bool SetCharMovementAxis(const FVector& NewAxisZ, bool bForceFindFloor);
 
 public:
@@ -151,7 +151,7 @@ public:
 	 * @param OldAxisZ - old vertical axis of the capsule
 	 * @param CurrentAxisZ - current vertical axis of the capsule
 	 */
-	UFUNCTION(BlueprintImplementableEvent,Category="NinjaCharacter",Meta=(DisplayName="On Char Axis Changed",ScriptName="OnCharacterMovementAxisChanged"))
+	UFUNCTION(BlueprintImplementableEvent,Category="GravityCharacter",Meta=(DisplayName="On Char Axis Changed",ScriptName="OnCharacterMovementAxisChanged"))
 	void K2_OnCharMovementAxisChanged(const FVector& OldAxisZ, const FVector& CurrentAxisZ);
 
 public:
@@ -187,7 +187,7 @@ public:
 	 * @param OldGravityDirectionMode - previous value of GravityDirectionMode
 	 * @param CurrentGravityDirectionMode - current value of GravityDirectionMode
 	 */
-	UFUNCTION(BlueprintImplementableEvent,Category="NinjaCharacter",Meta=(DisplayName="On Char Gravity Direction Changed",ScriptName="OnGravityDirectionChanged"))
+	UFUNCTION(BlueprintImplementableEvent,Category="GravityCharacter",Meta=(DisplayName="On Char Gravity Direction Changed",ScriptName="OnGravityDirectionChanged"))
 	void K2_OnGravityDirectionChanged(ENinjaGravityDirectionMode OldGravityDirectionMode, ENinjaGravityDirectionMode CurrentGravityDirectionMode);
 
 public:
@@ -219,7 +219,7 @@ public:
 	 * Event called when the capsule (movement collider) bumps into an unwalkable blocking object.
 	 * @param Hit - contains info about the hit, such as point of impact and surface normal at that point
 	 */
-	UFUNCTION(BlueprintImplementableEvent,Category="NinjaCharacter",Meta=(DisplayName="On Unwalkable Hit",ScriptName="OnUnwalkableHit"))
+	UFUNCTION(BlueprintImplementableEvent,Category="GravityCharacter",Meta=(DisplayName="On Unwalkable Hit",ScriptName="OnUnwalkableHit"))
 	void K2_OnUnwalkableHit(const FHitResult& Hit);
 
 public:
@@ -254,7 +254,7 @@ public:
 	 * @param RelativeLocation - location of the component relative to its parent
 	 * @param RelativeRotation - rotation of the component relative to its parent
 	 */
-	UFUNCTION(BlueprintCallable,Category="NinjaCharacter")
+	UFUNCTION(BlueprintCallable,Category="GravityCharacter")
 	virtual void SmoothComponentLocationAndRotation(class USceneComponent* SceneComponent, float DeltaTime, float LocationSpeed, float RotationSpeed, const FVector& RelativeLocation, const FRotator& RelativeRotation);
 
 	/**
@@ -265,7 +265,7 @@ public:
 	 * @param LocationSpeed - controls how the component lags behind target location; zero is instant, low value is slower, high value is faster
 	 * @param RelativeLocation - location of the component relative to its parent
 	 */
-	UFUNCTION(BlueprintCallable,Category="NinjaCharacter")
+	UFUNCTION(BlueprintCallable,Category="GravityCharacter")
 	virtual void SmoothComponentLocation(class USceneComponent* SceneComponent, float DeltaTime, float LocationSpeed, const FVector& RelativeLocation);
 
 	/**
@@ -276,6 +276,6 @@ public:
 	 * @param RotationSpeed - controls how the component lags behind target rotation; zero is instant, low value is slower, high value is faster
 	 * @param RelativeRotation - rotation of the component relative to its parent
 	 */
-	UFUNCTION(BlueprintCallable,Category="NinjaCharacter")
+	UFUNCTION(BlueprintCallable,Category="GravityCharacter")
 	virtual void SmoothComponentRotation(class USceneComponent* SceneComponent, float DeltaTime, float RotationSpeed, const FRotator& RelativeRotation);
 };
