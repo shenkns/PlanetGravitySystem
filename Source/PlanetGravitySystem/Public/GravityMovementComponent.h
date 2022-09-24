@@ -376,7 +376,7 @@ public:
 	 * If true, revert to engine's hardcoded gravity direction when entering the DefaultPhysicsVolume.
 	 * @note The DefaultPhysicsVolume is found in areas of the level with no PhysicsVolume
 	 */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacterMovement")
 	uint32 bRevertToDefaultGravity:1;
 
 	/** Delegate when PhysicsVolume of UpdatedComponent has been changed. */
@@ -420,7 +420,7 @@ public:
 
 public:
 	/** If false when landing on a surface, gravity direction is also checked to know if the surface is walkable. */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacterMovement")
 	uint32 bLandOnAnySurface:1;
 
 	/** Return true if the hit result should be considered a walkable surface for the character. */
@@ -591,7 +591,7 @@ public:
 
 public:
 	/** If true, when the Character bumps into an unwalkable blocking object, triggers unwalkable hit events. */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacterMovement")
 	uint32 bTriggerUnwalkableHits:1;
 
 protected:
@@ -624,19 +624,19 @@ protected:
 
 protected:
 	/** Mode that determines direction of gravity. */
-	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="NinjaCharacterMovement")
+	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="GravityCharacterMovement")
 	ENinjaGravityDirectionMode GravityDirectionMode;
 
 	/** Stores information that determines direction of gravity. */
-	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="NinjaCharacterMovement")
+	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="GravityCharacterMovement")
 	FVector GravityVectorA;
 
 	/** Stores additional information that determines direction of gravity. */
-	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="NinjaCharacterMovement")
+	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="GravityCharacterMovement")
 	FVector GravityVectorB;
 
 	/** Optional Actor that determines direction of gravity. */
-	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="NinjaCharacterMovement")
+	UPROPERTY(VisibleInstanceOnly,BlueprintReadOnly,Category="GravityCharacterMovement")
 	AActor* GravityActor;
 
 protected:
@@ -644,7 +644,7 @@ protected:
 	uint32 bDirtyGravityDirection:1;
 
 	/** If true, gravity data isn't replicated from server to clients. */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacterMovement")
 	uint32 bDisableGravityReplication:1;
 
 	/**
@@ -667,14 +667,14 @@ public:
 	 * @param bAvoidZeroGravity - if true, a gravity direction is always returned
 	 * @return normalized direction of current gravity
 	 */
-	UFUNCTION(BlueprintPure,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintPure,Category="Pawn|Components|GravityCharacterMovement")
 	virtual FVector GetGravityDirection(bool bAvoidZeroGravity = false) const;
 
 	/**
 	 * Obtains the absolute (positive) magnitude of the current gravity.
 	 * @return magnitude of current gravity
 	 */
-	UFUNCTION(BlueprintPure,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintPure,Category="Pawn|Components|GravityCharacterMovement")
 	virtual float GetGravityMagnitude() const;
 
 public:
@@ -683,7 +683,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityDirection - new gravity direction, assumes it isn't normalized
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement",Meta=(DisplayName="Set Fixed Gravity Direction",ScriptName="SetFixedGravityDirection"))
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement",Meta=(DisplayName="Set Fixed Gravity Direction",ScriptName="SetFixedGravityDirection"))
 	virtual void K2_SetFixedGravityDirection(const FVector& NewGravityDirection);
 
 	/**
@@ -707,7 +707,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityActor - Actor that provides a spline
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetSplineTangentGravityDirection(AActor* NewGravityActor);
 
 protected:
@@ -724,7 +724,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityPoint - new point which gravity direction points to
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetPointGravityDirection(const FVector& NewGravityPoint);
 
 	/**
@@ -732,7 +732,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityActor - Actor that provides its location as gravity point
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetPointGravityDirectionFromActor(AActor* NewGravityActor);
 
 protected:
@@ -757,7 +757,7 @@ public:
 	 * @param NewGravityLineStart - a point that belongs to the infinite line
 	 * @param NewGravityLineEnd - another point that belongs to the infinite line
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetLineGravityDirection(const FVector& NewGravityLineStart, const FVector& NewGravityLineEnd);
 
 protected:
@@ -776,7 +776,7 @@ public:
 	 * @param NewGravitySegmentStart - start point of the segment line
 	 * @param NewGravitySegmentEnd - end point of the segment line
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetSegmentGravityDirection(const FVector& NewGravitySegmentStart, const FVector& NewGravitySegmentEnd);
 
 protected:
@@ -794,7 +794,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityActor - Actor that provides a spline
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetSplineGravityDirection(AActor* NewGravityActor);
 
 protected:
@@ -812,7 +812,7 @@ public:
 	 * @param NewGravityPlaneBase - a point that belongs to the plane
 	 * @param NewGravityPlaneNormal - normal of the plane, assumes it isn't normalized
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement",Meta=(DisplayName="Set Plane Gravity Direction",ScriptName="SetPlaneGravityDirection"))
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement",Meta=(DisplayName="Set Plane Gravity Direction",ScriptName="SetPlaneGravityDirection"))
 	virtual void K2_SetPlaneGravityDirection(const FVector& NewGravityPlaneBase, const FVector& NewGravityPlaneNormal);
 
 	/**
@@ -839,7 +839,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityActor - Actor that provides a spline
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetSplinePlaneGravityDirection(AActor* NewGravityActor);
 
 protected:
@@ -858,7 +858,7 @@ public:
 	 * @param NewGravityBoxOrigin - origin of the box
 	 * @param NewGravityBoxExtent - extents of the box
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetBoxGravityDirection(const FVector& NewGravityBoxOrigin, const FVector& NewGravityBoxExtent);
 
 	/**
@@ -866,7 +866,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityActor - Actor that provides its collision bounding box as gravity target
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetBoxGravityDirectionFromActor(AActor* NewGravityActor);
 
 protected:
@@ -891,7 +891,7 @@ public:
 	 * @note It can be influenced by GravityScale
 	 * @param NewGravityActor - Actor that owns the PrimitiveComponent that has collision geometry
 	 */
-	UFUNCTION(BlueprintCallable,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintCallable,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetCollisionGravityDirection(AActor* NewGravityActor);
 
 protected:
@@ -940,14 +940,14 @@ public:
 	 * @note For "Box" gravity mode, gravity direction points to base's bounding box
 	 * @note For "Collision" gravity mode, gravity direction points to base's collision geometry
 	 */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,BlueprintSetter=SetAlignGravityToBase,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,BlueprintSetter=SetAlignGravityToBase,Category="GravityCharacterMovement")
 	uint32 bAlignGravityToBase:1;
 
 	/**
 	 * Sets a new state for bAlignGravityToBase flag.
 	 * @param bNewAlignGravityToBase - new value for bAlignGravityToBase flag
 	 */
-	UFUNCTION(BlueprintSetter,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintSetter,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetAlignGravityToBase(bool bNewAlignGravityToBase);
 
 protected:
@@ -1015,14 +1015,14 @@ public:
 	 * If true and a floor is found, rotate the Character and align it to floor normal vector.
 	 * @note Activation of "Use Flat Base for Floor Checks" should be avoided.
 	 */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,BlueprintSetter=SetAlignComponentToFloor,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,BlueprintSetter=SetAlignComponentToFloor,Category="GravityCharacterMovement")
 	uint32 bAlignComponentToFloor:1;
 
 	/**
 	 * Sets a new state for bAlignComponentToFloor flag.
 	 * @param bNewAlignComponentToFloor - new value for bAlignComponentToFloor flag
 	 */
-	UFUNCTION(BlueprintSetter,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintSetter,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetAlignComponentToFloor(bool bNewAlignComponentToFloor);
 
 protected:
@@ -1040,14 +1040,14 @@ protected:
 
 public:
 	/** If true, rotate the Character and align it to the gravity direction. */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,BlueprintSetter=SetAlignComponentToGravity,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,BlueprintSetter=SetAlignComponentToGravity,Category="GravityCharacterMovement")
 	uint32 bAlignComponentToGravity:1;
 
 	/**
 	 * Sets a new state for bAlignComponentToGravity flag.
 	 * @param bNewAlignComponentToGravity - new value for bAlignComponentToGravity flag
 	 */
-	UFUNCTION(BlueprintSetter,Category="Pawn|Components|NinjaCharacterMovement")
+	UFUNCTION(BlueprintSetter,Category="Pawn|Components|GravityCharacterMovement")
 	virtual void SetAlignComponentToGravity(bool bNewAlignComponentToGravity);
 
 protected:
@@ -1065,14 +1065,14 @@ protected:
 
 public:
 	/** If true and the Character is aligned to something, always rotate the Character around its center. */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacterMovement")
 	uint32 bAlwaysRotateAroundCenter:1;
 
 	/**
 	 * If true and the Character is aligned to something while walking, velocity direction is also rotated.
 	 * @note Activating this prevents speed loss on component rotation change.
 	 */
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="NinjaCharacterMovement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="GravityCharacterMovement")
 	uint32 bRotateVelocityOnGround:1;
 
 	/**
@@ -1104,7 +1104,7 @@ protected:
 	 * Angle in degrees that determines if any two vectors are parallel.
 	 * @note Reducing this improves smoothness of certain rotation calculations
 	 */
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="NinjaCharacterMovement",Meta=(NoSpinbox=true,ClampMin=0.25f,ClampMax=1.0f,UIMin=0.25f,UIMax=1.0f))
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="GravityCharacterMovement",Meta=(NoSpinbox=true,ClampMin=0.25f,ClampMax=1.0f,UIMin=0.25f,UIMax=1.0f))
 	float ThresholdParallelAngle;
 
 	/**
@@ -1115,11 +1115,11 @@ protected:
 	void SetThresholdParallelAngle(float NewThresholdParallelAngle);
 
 	/** Threshold that determines if two unit vectors are perpendicular. */
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="NinjaCharacterMovement")
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="GravityCharacterMovement")
 	float ThresholdOrthogonalCosine;
 
 	/** Threshold that determines if two unit vectors are parallel. */
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="NinjaCharacterMovement")
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="GravityCharacterMovement")
 	float ThresholdParallelCosine;
 
 public:
