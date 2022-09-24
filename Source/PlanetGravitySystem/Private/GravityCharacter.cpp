@@ -196,7 +196,7 @@ void AGravityCharacter::FaceRotation(FRotator NewControlRotation, float DeltaTim
 		else
 		{
 			const float CosineThreshold = (GetGravityMovementComponent() != nullptr) ?
-				GetGravityMovementComponent()->GetThresholdParallelCosine() : NINJA_NORMALS_PARALLEL;
+				GetGravityMovementComponent()->GetThresholdParallelCosine() : GRAVITY_NORMALS_PARALLEL;
 
 			NewControlRotation = FGravityMath::MakeFromZQuat(AxisZ, NewControlRotation.Quaternion(),
 				CosineThreshold).Rotator();
@@ -266,7 +266,7 @@ void AGravityCharacter::TransformUpdated(USceneComponent* UpdatedComponent, EUpd
 
 	const FVector NewAxisZ = GetActorAxisZ();
 	const float CosineThreshold = (GetGravityMovementComponent() != nullptr) ?
-		GetGravityMovementComponent()->GetThresholdParallelCosine() : NINJA_NORMALS_PARALLEL;
+		GetGravityMovementComponent()->GetThresholdParallelCosine() : GRAVITY_NORMALS_PARALLEL;
 
 	// Abort if angle between new and old component 'up' axes almost equals to 0 degrees
 	if (FGravityMath::Coincident(LastAxisZ, NewAxisZ, CosineThreshold))
@@ -308,7 +308,7 @@ void AGravityCharacter::OnCharMovementAxisChanged(const FVector& OldAxisZ, const
 		FQuat QuatRotation;
 
 		const float CosineThreshold = (GetGravityMovementComponent() != nullptr) ?
-			GetGravityMovementComponent()->GetThresholdParallelCosine() : NINJA_NORMALS_PARALLEL;
+			GetGravityMovementComponent()->GetThresholdParallelCosine() : GRAVITY_NORMALS_PARALLEL;
 
 		// Figure out if angle between new and old 'up' axes is less than 180 degrees
 		if (!FGravityMath::Opposite(CurrentAxisZ, OldAxisZ, CosineThreshold))

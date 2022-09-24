@@ -8,9 +8,9 @@
 #include "Math/Vector.h"
 
 /** Determines if two unit vectors are perpendicular; this is cos(89). */
-#define NINJA_NORMALS_ORTHOGONAL 0.01745240643f
+#define GRAVITY_NORMALS_ORTHOGONAL 0.01745240643f
 /** Determines if two unit vectors are parallel; this is cos(1). */
-#define NINJA_NORMALS_PARALLEL 0.99984769515f
+#define GRAVITY_NORMALS_PARALLEL 0.99984769515f
 
 
 /**
@@ -101,7 +101,7 @@ struct FGravityMath
 	 * @return quaternion rotation with given Z axis
 	 */
 	static FQuat MakeFromZQuat(const FVector& ZAxis, const FQuat& Quat,
-		float CosineThreshold = NINJA_NORMALS_PARALLEL)
+		float CosineThreshold = GRAVITY_NORMALS_PARALLEL)
 	{
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST) && WITH_EDITORONLY_DATA
 		check(ZAxis.IsNormalized());
@@ -129,7 +129,7 @@ struct FGravityMath
 	 * @return true if angle between given vectors is close to 0 degrees
 	 */
 	static FORCEINLINE bool Coincident(const FVector& Vector1, const FVector& Vector2,
-		float CosineThreshold = NINJA_NORMALS_PARALLEL)
+		float CosineThreshold = GRAVITY_NORMALS_PARALLEL)
 	{
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST) && WITH_EDITORONLY_DATA
 		check(Vector1.IsNormalized());
@@ -147,7 +147,7 @@ struct FGravityMath
 	 * @return true if angle between given vectors is close to 180 degrees
 	 */
 	static FORCEINLINE bool Opposite(const FVector& Vector1, const FVector& Vector2,
-		float CosineThreshold = NINJA_NORMALS_PARALLEL)
+		float CosineThreshold = GRAVITY_NORMALS_PARALLEL)
 	{
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST) && WITH_EDITORONLY_DATA
 		check(Vector1.IsNormalized());
@@ -165,7 +165,7 @@ struct FGravityMath
 	 * @return true if angle between given vectors is close to 90 degrees
 	 */
 	static FORCEINLINE bool Orthogonal(const FVector& Vector1, const FVector& Vector2,
-		float CosineThreshold = NINJA_NORMALS_ORTHOGONAL)
+		float CosineThreshold = GRAVITY_NORMALS_ORTHOGONAL)
 	{
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST) && WITH_EDITORONLY_DATA
 		check(Vector1.IsNormalized());
@@ -183,7 +183,7 @@ struct FGravityMath
 	 * @return true if angle between given vectors is close to 0/180 degrees
 	 */
 	static FORCEINLINE bool Parallel(const FVector& Vector1, const FVector& Vector2,
-		float CosineThreshold = NINJA_NORMALS_PARALLEL)
+		float CosineThreshold = GRAVITY_NORMALS_PARALLEL)
 	{
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST) && WITH_EDITORONLY_DATA
 		check(Vector1.IsNormalized());
